@@ -44,7 +44,7 @@ export const Map = () => {
   useEffect(() => {
     const baseTile = createBaseMapTile(
       mapStore.baseMapTile,
-      mapStore.coordinateSystem
+      mapStore.coordinateSystem,
     );
     setBaseMapTile(baseTile);
   }, [mapStore.baseMapTile, mapStore.coordinateSystem]);
@@ -52,7 +52,7 @@ export const Map = () => {
   const onViewStateChange = useCallback(
     ({ viewState }: ViewStateChangeParameters) =>
       mapStore.setViewState(viewState),
-    [mapStore.setViewState]
+    [mapStore.setViewState],
   );
 
   // EDIT

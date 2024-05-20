@@ -1,5 +1,4 @@
 import { EditMapMenu, Map, Menu } from "@/widgets/map";
-import { Timelines } from "@/widgets/map/Timelines";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 export const Route = createLazyFileRoute("/")({
@@ -12,7 +11,6 @@ function Page() {
       <EditMapMenu />
       <Menu />
       <Map />
-      <Timelines />
     </>
   );
 }

@@ -21,14 +21,16 @@ export const formatTypesToInputAccept = (types: string[]) => {
   return types.join(",");
 };
 
-
-export const hexToRgbaArray = (hex: string) => {
-  const color = hex.charAt(0) === '#' ? hex.substring(1, 9) : hex;
+export const hexToRgbaArray = (hex: string, alpha?: string | number) => {
+  const color = hex.charAt(0) === "#" ? hex.substring(1, 9) : hex;
 
   const r = parseInt(color.substring(0, 2), 16);
   const g = parseInt(color.substring(2, 4), 16);
   const b = parseInt(color.substring(4, 6), 16);
-  const a = parseInt(color.substring(6, 8), 16);
+  let a = 255;
+  if (alpha) {
+    a = +alpha > 255 ? 255 : +alpha < 0 ? 0 : +alpha;
+  }
 
-  return [r, g, b, a ? a : 255];
+  return [r, g, b, a];
 };

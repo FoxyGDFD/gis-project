@@ -5,6 +5,7 @@ import { Cross1Icon, PlusIcon } from "@radix-ui/react-icons";
 import { Fragment, useEffect, useState } from "react";
 import { Controller, useFieldArray, useForm, useWatch } from "react-hook-form";
 import { TiDeleteOutline } from "react-icons/ti";
+import { ColorChangerInput } from "./ColorChangerInput";
 
 type VectorStorageFields = {
   fields: {
@@ -42,7 +43,7 @@ export const VectorEditOverlayStorage = ({
             key: property[0],
             value: property[1],
           }))
-        : []
+        : [],
     );
   }, [layer, featureId]);
 
@@ -58,7 +59,7 @@ export const VectorEditOverlayStorage = ({
 
   useEffect(() => {
     const canAddBaseLayerStyles = baseLayerStyles.some(
-      (s) => !fields.map((f) => f.key).includes(s.key)
+      (s) => !fields.map((f) => f.key).includes(s.key),
     );
     setCanAddBaseStyles(canAddBaseLayerStyles);
 
@@ -72,7 +73,7 @@ export const VectorEditOverlayStorage = ({
 
   const addBaseLayerStyles = () => {
     append(
-      baseLayerStyles.filter((s) => !fields.map((f) => f.key).includes(s.key))
+      baseLayerStyles.filter((s) => !fields.map((f) => f.key).includes(s.key)),
     );
   };
 
@@ -93,28 +94,56 @@ export const VectorEditOverlayStorage = ({
       <div className="grid grid-cols-[.5fr_.5fr_24px] gap-2 items-center">
         {fields.map((field, index) => (
           <Fragment key={field.id}>
-            <Controller
-              control={methods.control}
-              name={`fields.${index}.key`}
-              render={({ field }) => (
-                <input
-                  className="input input-xs input-bordered w-full max-w-xs !outline-none"
-                  {...field}
-                  placeholder="Ключ"
+            {field.key === "fill" || field.key === "stroke" ? (
+              <>
+                <Controller
+                  control={methods.control}
+                  name={`fields.${index}.key`}
+                  render={({ field }) => (
+                    <input
+                      className="input input-xs input-bordered w-full max-w-xs !outline-none"
+                      {...field}
+                      placeholder="Ключ"
+                    />
+                  )}
                 />
-              )}
-            />
-            <Controller
-              control={methods.control}
-              name={`fields.${index}.value`}
-              render={({ field }) => (
-                <input
-                  className="input input-xs input-bordered w-full max-w-xs !outline-none"
-                  {...field}
-                  placeholder="Значение"
+                <Controller
+                  control={methods.control}
+                  name={`fields.${index}.value`}
+                  render={({ field }) => (
+                    <ColorChangerInput
+                      color={field.value}
+                      onChange={field.onChange}
+                    />
+                  )}
                 />
-              )}
-            />
+              </>
+            ) : (
+              <>
+                <Controller
+                  control={methods.control}
+                  name={`fields.${index}.key`}
+                  render={({ field }) => (
+                    <input
+                      className="input input-xs input-bordered w-full max-w-xs !outline-none"
+                      {...field}
+                      placeholder="Ключ"
+                    />
+                  )}
+                />
+                <Controller
+                  control={methods.control}
+                  name={`fields.${index}.value`}
+                  render={({ field }) => (
+                    <input
+                      className="input input-xs input-bordered w-full max-w-xs !outline-none"
+                      {...field}
+                      placeholder="Значение"
+                    />
+                  )}
+                />
+              </>
+            )}
             <button
               className="btn btn-ghost btn-xs p-1"
               onClick={() => remove(index)}

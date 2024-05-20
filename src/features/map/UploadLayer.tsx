@@ -38,7 +38,7 @@ export const UploadLayer = () => {
           size: file.size,
           type: file.type,
         },
-        obj as FeatureCollection
+        obj as FeatureCollection,
       );
 
       toast.success("Слой успешно загружен");

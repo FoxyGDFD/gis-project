@@ -8,7 +8,6 @@ import { bbox, centroid } from "@turf/turf";
 import { FeatureCollection } from "geojson";
 import { DEFAULT_COLORS, DEFAULT_SIZES } from "../data";
 import { CommonLayerMethods, CommonLayerVariables } from "./common";
-import { DataFilterExtension } from "@deck.gl/extensions";
 
 export class VectorLayer extends GeoJsonLayer<
   any,
@@ -23,11 +22,6 @@ export const createVectorLayer = (id: string, data: CommonFCWithProperties) => {
     id: id,
     data,
     layerId: id,
-
-    getFilterValue: (d) => d.properties.date || 0,
-    filterRange: [0, 2040],
-    filterSoftRange: [0, 10],
-    extensions: [new DataFilterExtension({ filterSize: 1 })],
 
     // -------- DEFAULT PROPS --------
 
@@ -68,7 +62,7 @@ export const createVectorLayer = (id: string, data: CommonFCWithProperties) => {
     getProperties(featureId: number) {
       return (
         (this.data as FeatureCollection).features?.find(
-          (f) => f.id === featureId
+          (f) => f.id === featureId,
         )?.properties || {}
       );
     },
@@ -81,11 +75,14 @@ export const createVectorLayer = (id: string, data: CommonFCWithProperties) => {
           const properties: CommonLayerFeatureProperties =
             feature.__source?.object?.properties;
 
-          if (properties?.stroke) {
-            return hexToRgbaArray(properties.stroke);
-          } else {
-            return DEFAULT_COLORS.EDIT.GEOJSON.LINE;
-          }
+          const color =
+            properties.stroke || DEFAULT_COLORS.EDIT.GEOJSON.LINE.COLOR;
+
+          const opacity =
+            properties["stroke-opacity"] ||
+            DEFAULT_COLORS.EDIT.GEOJSON.LINE.OPACITY;
+
+          return hexToRgbaArray(color, opacity);
         },
         getWidth: (feature: any) => {
           const properties: CommonLayerFeatureProperties =
@@ -101,18 +98,24 @@ export const createVectorLayer = (id: string, data: CommonFCWithProperties) => {
       "polygons-fill": {
         type: PolygonLayer,
         getFillColor: (feature: CommonFCWithProperties["features"][0]) => {
-          if (feature.properties.fill) {
-            return hexToRgbaArray(feature.properties.fill);
-          } else {
-            return DEFAULT_COLORS.EDIT.GEOJSON.FILL;
-          }
+          const color =
+            feature.properties.fill || DEFAULT_COLORS.EDIT.GEOJSON.FILL.COLOR;
+
+          const opacity =
+            feature.properties["fill-opacity"] ||
+            DEFAULT_COLORS.EDIT.GEOJSON.FILL.OPACITY;
+
+          return hexToRgbaArray(color, opacity);
         },
         getLineColor: (feature: CommonFCWithProperties["features"][0]) => {
-          if (feature.properties.stroke) {
-            return hexToRgbaArray(feature.properties.stroke);
-          } else {
-            return DEFAULT_COLORS.EDIT.GEOJSON.LINE;
-          }
+          const color =
+            feature.properties.stroke || DEFAULT_COLORS.EDIT.GEOJSON.LINE.COLOR;
+
+          const opacity =
+            feature.properties["stroke-opacity"] ||
+            DEFAULT_COLORS.EDIT.GEOJSON.LINE.OPACITY;
+
+          return hexToRgbaArray(color, opacity);
         },
         getLineWidth: (feature: CommonFCWithProperties["features"][0]) => {
           if (feature.properties["stroke-width"]) {
@@ -132,11 +135,14 @@ export const createVectorLayer = (id: string, data: CommonFCWithProperties) => {
           const properties: CommonLayerFeatureProperties =
             feature.__source?.object?.properties;
 
-          if (properties?.stroke) {
-            return hexToRgbaArray(properties.stroke);
-          } else {
-            return DEFAULT_COLORS.EDIT.GEOJSON.LINE;
-          }
+          const color =
+            properties.stroke || DEFAULT_COLORS.EDIT.GEOJSON.LINE.COLOR;
+
+          const opacity =
+            properties["stroke-opacity"] ||
+            DEFAULT_COLORS.EDIT.GEOJSON.LINE.OPACITY;
+
+          return hexToRgbaArray(color, opacity);
         },
         getWidth: (feature: any) => {
           const properties: CommonLayerFeatureProperties =

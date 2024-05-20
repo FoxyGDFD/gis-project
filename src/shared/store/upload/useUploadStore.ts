@@ -16,7 +16,7 @@ export const useUploadStore = create<UploadStoreState>()(
 
       setLayerFC: (id, layer) => {
         const newLayers = get().uploadedLayers.map((l) =>
-          l.id === id ? { ...l, layer } : l
+          l.id === id ? { ...l, layer } : l,
         );
         set({ uploadedLayers: newLayers });
       },
@@ -41,7 +41,7 @@ export const useUploadStore = create<UploadStoreState>()(
       removeUploadedLayer(id: string) {
         set({
           uploadedLayers: get().uploadedLayers.filter(
-            (layer) => layer.id !== id
+            (layer) => layer.id !== id,
           ),
         });
         useMapStore.getState().removeLayer(id);
@@ -49,7 +49,7 @@ export const useUploadStore = create<UploadStoreState>()(
 
       exportLayer(id: string) {
         const uploadedLayer = get().uploadedLayers.find(
-          (layer) => layer.id === id
+          (layer) => layer.id === id,
         );
 
         if (!uploadedLayer) {
@@ -68,6 +68,6 @@ export const useUploadStore = create<UploadStoreState>()(
     }),
     {
       name: "uploaded",
-    }
-  )
+    },
+  ),
 );

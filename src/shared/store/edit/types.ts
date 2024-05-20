@@ -1,5 +1,5 @@
-import { EditableLayer } from '@/shared/types';
-import { GeoJsonEditMode } from '@deck.gl-community/editable-layers';
+import { EditableLayer } from "@/shared/types";
+import { GeoJsonEditMode } from "@deck.gl-community/editable-layers";
 
 export type EditMapStoreVariables = {
   editableLayer: EditableLayer | null;
@@ -12,7 +12,7 @@ export type EditMapStoreMethods = {
 
   setPropertiesToFeature: (
     featureId: number,
-    properties: Record<string, any>
+    properties: Record<string, any>,
   ) => void;
 
   setEditMode: (mode: GeoJsonEditMode) => void;

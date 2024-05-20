@@ -42,7 +42,14 @@ export const createEditableLayer = (props: CreateEditableLayerProps) => {
           features: updatedData.features.map((f) =>
             f.id
               ? f
-              : { ...f, id: v4(), properties: { ...f.properties, date: f.properties.date || 2024 } }
+              : {
+                  ...f,
+                  id: v4(),
+                  properties: {
+                    ...f.properties,
+                    date: f.properties.date || 2024,
+                  },
+                },
           ),
         } as FeatureCollection,
       } as any);
@@ -70,11 +77,14 @@ export const createEditableLayer = (props: CreateEditableLayerProps) => {
               const properties: CommonLayerFeatureProperties =
                 feature.__source?.object?.properties;
 
-              if (properties?.stroke) {
-                return hexToRgbaArray(properties.stroke);
-              } else {
-                return DEFAULT_COLORS.EDIT.GEOJSON.LINE;
-              }
+              const color =
+                properties.stroke || DEFAULT_COLORS.EDIT.GEOJSON.LINE.COLOR;
+
+              const opacity =
+                properties["stroke-opacity"] ||
+                DEFAULT_COLORS.EDIT.GEOJSON.LINE.OPACITY;
+
+              return hexToRgbaArray(color, opacity);
             },
             getWidth: (feature: any) => {
               const properties: CommonLayerFeatureProperties =
@@ -90,18 +100,26 @@ export const createEditableLayer = (props: CreateEditableLayerProps) => {
           "polygons-fill": {
             type: PolygonLayer,
             getFillColor: (feature: CommonFCWithProperties["features"][0]) => {
-              if (feature.properties.fill) {
-                return hexToRgbaArray(feature.properties.fill);
-              } else {
-                return DEFAULT_COLORS.EDIT.GEOJSON.FILL;
-              }
+              const color =
+                feature.properties.fill ||
+                DEFAULT_COLORS.EDIT.GEOJSON.FILL.COLOR;
+
+              const opacity =
+                feature.properties["fill-opacity"] ||
+                DEFAULT_COLORS.EDIT.GEOJSON.FILL.OPACITY;
+
+              return hexToRgbaArray(color, opacity);
             },
             getLineColor: (feature: CommonFCWithProperties["features"][0]) => {
-              if (feature.properties.stroke) {
-                return hexToRgbaArray(feature.properties.stroke);
-              } else {
-                return DEFAULT_COLORS.EDIT.GEOJSON.LINE;
-              }
+              const color =
+                feature.properties.stroke ||
+                DEFAULT_COLORS.EDIT.GEOJSON.LINE.COLOR;
+
+              const opacity =
+                feature.properties["stroke-opacity"] ||
+                DEFAULT_COLORS.EDIT.GEOJSON.LINE.OPACITY;
+
+              return hexToRgbaArray(color, opacity);
             },
             getLineWidth: (feature: CommonFCWithProperties["features"][0]) => {
               if (feature.properties["stroke-width"]) {
@@ -121,11 +139,14 @@ export const createEditableLayer = (props: CreateEditableLayerProps) => {
               const properties: CommonLayerFeatureProperties =
                 feature.__source?.object?.properties;
 
-              if (properties?.stroke) {
-                return hexToRgbaArray(properties.stroke);
-              } else {
-                return DEFAULT_COLORS.EDIT.GEOJSON.LINE;
-              }
+              const color =
+                properties.stroke || DEFAULT_COLORS.EDIT.GEOJSON.LINE.COLOR;
+
+              const opacity =
+                properties["stroke-opacity"] ||
+                DEFAULT_COLORS.EDIT.GEOJSON.LINE.OPACITY;
+
+              return hexToRgbaArray(color, opacity);
             },
             getWidth: (feature: any) => {
               const properties: CommonLayerFeatureProperties =

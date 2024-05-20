@@ -62,7 +62,7 @@ export const EditMapMenu = () => {
             className="btn btn-ghost btn-xs p-[2px] rounded flex items-center justify-start"
             onClick={() => {
               useMapStore.getState().updateLayerData(editStore.editableLayer!);
-              toast.success("Слой успешно сохранен")
+              toast.success("Слой успешно сохранен");
             }}
           >
             <FiSave className="w-4 h-4" />{" "}

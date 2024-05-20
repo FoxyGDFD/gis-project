@@ -1,10 +1,10 @@
-import { TileLayer } from '@deck.gl/geo-layers';
-import { BitmapLayer, BitmapLayerProps } from '@deck.gl/layers';
-import { BaseTile } from '../types';
+import { TileLayer } from "@deck.gl/geo-layers";
+import { BitmapLayer, BitmapLayerProps } from "@deck.gl/layers";
+import { BaseTile } from "../types";
 
 export const createBaseMapTile = (
   baseTile: BaseTile,
-  coordinateSystem: BitmapLayerProps['coordinateSystem']
+  coordinateSystem: BitmapLayerProps["coordinateSystem"],
 ) => {
   return new TileLayer({
     tileSize: 256,

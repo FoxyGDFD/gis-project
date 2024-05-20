@@ -11,8 +11,14 @@ export const DEFAULT_COLORS = {
     },
 
     GEOJSON: {
-      FILL: [77, 77, 77, 255 * 0.3],
-      LINE: [77, 77, 77, 255 * 0.7],
+      FILL: {
+        COLOR: "#4d4d4d",
+        OPACITY: 255 * 0.3,
+      },
+      LINE: {
+        COLOR: "#4d4d4d",
+        OPACITY: 255 * 0.7,
+      },
     },
   },
   MEASURE: {
@@ -143,9 +149,21 @@ export const baseLayerStyles: {
   key: keyof CommonLayerFeatureProperties;
   value: string;
 }[] = [
-  { key: "fill", value: `#${toHexString(DEFAULT_COLORS.EDIT.GEOJSON.FILL)}` },
-  { key: "stroke", value: `#${toHexString(DEFAULT_COLORS.EDIT.GEOJSON.LINE)}` },
-  { key: "fill-opacity", value: "1" },
-  { key: "stroke-opacity", value: "1" },
+  {
+    key: "fill",
+    value: DEFAULT_COLORS.EDIT.GEOJSON.FILL.COLOR,
+  },
+  {
+    key: "stroke",
+    value: DEFAULT_COLORS.EDIT.GEOJSON.LINE.COLOR,
+  },
+  {
+    key: "fill-opacity",
+    value: DEFAULT_COLORS.EDIT.GEOJSON.FILL.OPACITY.toString(),
+  },
+  {
+    key: "stroke-opacity",
+    value: DEFAULT_COLORS.EDIT.GEOJSON.LINE.OPACITY.toString(),
+  },
   { key: "stroke-width", value: DEFAULT_SIZES.LINE_WIDTH.toString() },
 ];

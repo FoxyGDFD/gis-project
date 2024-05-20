@@ -18,7 +18,7 @@ export type UploadStoreMethods = {
       size: number;
       type: string;
     },
-    layer: FeatureCollection
+    layer: FeatureCollection,
   ) => void;
 
   removeUploadedLayer: (id: string) => void;

@@ -20,7 +20,7 @@ export const useEditMapStore = create<EditMapStoreState>()((set, get) => ({
     const editableLayer = get().editableLayer;
     if (!editableLayer) return;
     const featureIndex = editableLayer.featureCollection?.features.findIndex(
-      (feature) => feature.id === featureId
+      (feature) => feature.id === featureId,
     );
     const feature = {
       ...editableLayer.featureCollection?.features[featureIndex],
@@ -31,7 +31,7 @@ export const useEditMapStore = create<EditMapStoreState>()((set, get) => ({
       ...editableLayer.featureCollection,
       features: [
         ...editableLayer.featureCollection.features.map((f) =>
-          f.id === featureId ? newFeature : f
+          f.id === featureId ? newFeature : f,
         ),
       ],
     };

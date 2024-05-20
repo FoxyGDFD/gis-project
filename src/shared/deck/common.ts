@@ -1,5 +1,5 @@
-import { CommonLayerFeatureProperties } from '@/shared/types';
-import { FeatureCollection } from 'geojson';
+import { CommonLayerFeatureProperties } from "@/shared/types";
+import { FeatureCollection } from "geojson";
 
 export type CommonLayerVariables = {
   name: string;
@@ -9,7 +9,7 @@ export type CommonLayerVariables = {
 export type CommonLayerMethods<
   D,
   FC = FeatureCollection,
-  F = FeatureCollection['features'],
+  F = FeatureCollection["features"],
 > = {
   getData: () => D | undefined;
   getName: () => string;
@@ -18,7 +18,7 @@ export type CommonLayerMethods<
   getFeatureCollection: () => FC;
   getFeatures: () => F;
   getProperties: (
-    featureId: number
+    featureId: number,
   ) => CommonLayerFeatureProperties | Record<string, any>;
 };
 

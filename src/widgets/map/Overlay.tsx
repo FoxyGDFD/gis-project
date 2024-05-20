@@ -41,6 +41,6 @@ export const Overlay = ({ setPickingInfo, ...props }: OverlayProps) => {
         )}
       </div>
     </div>,
-    document.getElementById("root")!
+    document.getElementById("root")!,
   );
 };

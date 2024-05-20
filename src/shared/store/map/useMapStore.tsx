@@ -17,8 +17,8 @@ const initialState: MapStoreVariables = {
   baseMapTile:
     baseTiles.find(
       (baseTile) =>
-        baseTile.id.toString() === localStorage.getItem("base-map-tile-id")
-    ) || baseTiles[3],
+        baseTile.id.toString() === localStorage.getItem("base-map-tile-id"),
+    ) || baseTiles[1],
   layers: [],
   view: viewModes[0].mode,
 };
@@ -52,7 +52,7 @@ export const useMapStore = create<MapStoreState>()((set, get) => ({
         [minLng, minLat],
         [maxLng, maxLat],
       ],
-      { padding: 70 }
+      { padding: 70 },
     );
 
     get().setViewState({
