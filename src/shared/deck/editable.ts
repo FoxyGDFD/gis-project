@@ -47,9 +47,8 @@ export const createEditableLayer = (props: CreateEditableLayerProps) => {
                   id: v4(),
                   properties: {
                     ...f.properties,
-                    date: f.properties.date || 2024,
                   },
-                },
+                }
           ),
         } as FeatureCollection,
       } as any);

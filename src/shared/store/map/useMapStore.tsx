@@ -14,11 +14,11 @@ import { useUploadStore } from "../upload/useUploadStore";
 const initialState: MapStoreVariables = {
   coordinateSystem: COORDINATE_SYSTEM.DEFAULT,
   viewState: defaultDeckGlConfig.initialViewState!,
-  baseMapTile:
-    baseTiles.find(
-      (baseTile) =>
-        baseTile.id.toString() === localStorage.getItem("base-map-tile-id"),
-    ) || baseTiles[1],
+  baseMapTile: baseTiles[6],
+  // baseTiles.find(
+  //   (baseTile) =>
+  //     baseTile.id.toString() === localStorage.getItem("base-map-tile-id"),
+  // ) || baseTiles[3],
   layers: [],
   view: viewModes[0].mode,
 };
@@ -52,7 +52,7 @@ export const useMapStore = create<MapStoreState>()((set, get) => ({
         [minLng, minLat],
         [maxLng, maxLat],
       ],
-      { padding: 70 },
+      { padding: 70 }
     );
 
     get().setViewState({

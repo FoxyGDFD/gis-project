@@ -10,11 +10,6 @@ export const Menu = () => {
   const [pressed, setPressed] = useState(false);
 
   return (
-    // <Rnd
-    //   default={{ x: 30, y: 30, width: "auto", height: "auto" }}
-    //   enableResizing={false}
-    //   className="z-[1]"
-    // >
     <motion.div
       initial={{ x: -300, opacity: 0 }}
       animate={{
@@ -26,7 +21,7 @@ export const Menu = () => {
       }}
       className="absolute left-5 top-5 w-auto h-auto z-[1]"
     >
-      <div className="card w-[300px] bg-base-100 shadow-xl p-4">
+      <div className="card !rounded w-[300px] bg-base-100 shadow-xl p-4">
         <div className="flex flex-col gap-4">
           <div className="flex justify-between items-center">
             <h2 className="prose-2xl font-bold text-white">Меню</h2>
@@ -35,7 +30,7 @@ export const Menu = () => {
                 <FaPlus
                   className={cx(
                     "w-5 h-5 transition-all duration-150",
-                    pressed && "-rotate-45",
+                    pressed && "-rotate-45"
                   )}
                 />
               </button>

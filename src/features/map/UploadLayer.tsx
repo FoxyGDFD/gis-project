@@ -4,6 +4,7 @@ import * as gjv from "geojson-validation";
 import { toast } from "sonner";
 import { useUploadStore } from "@/shared/store/upload/useUploadStore";
 import { FeatureCollection } from "@deck.gl-community/editable-layers";
+import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
 export const UploadLayer = () => {
   const inputRef = useRef<HTMLInputElement>();
@@ -53,7 +54,7 @@ export const UploadLayer = () => {
         initial={{ opacity: 0, x: -100 }}
         animate={{ opacity: 100, x: 0, transition: { delay: 0.1 } }}
       >
-        <button className="btn btn-outline btn-sm w-full" onClick={onClick}>
+        <button className="btn !rounded btn-outline btn-sm w-full" onClick={onClick}>
           Загрузить слой
         </button>
         <input ref={inputRef} type="file" hidden onChange={onUpload} />

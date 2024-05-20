@@ -22,7 +22,7 @@ export const CreateEmptyLayer = () => {
       animate={{ opacity: 100, x: 0 }}
     >
       <button
-        className="btn btn-accent btn-sm w-full"
+        className="btn !rounded btn-accent btn-sm w-full"
         onClick={onAddEmptyLayer}
       >
         Добавить пустой слой
