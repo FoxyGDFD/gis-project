@@ -8,9 +8,11 @@ import {
 } from "@deck.gl-community/editable-layers";
 import { PickingInfo, ViewStateChangeParameters } from "@deck.gl/core";
 import { TileLayer } from "@deck.gl/geo-layers";
-import DeckGL from "@deck.gl/react";
-import { useCallback, useEffect, useState } from "react";
+import DeckGL, { DeckGLRef } from "@deck.gl/react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Overlay } from "./Overlay";
+import { useExportMapStore } from "@/shared/store/export";
+import { saveMap } from "@/shared/utils";
 
 type CursorState = {
   /** Whether the cursor is over a pickable object */
@@ -66,7 +68,7 @@ export const Map = () => {
     useState<EditableGeoJsonLayer | null>();
 
   useEffect(() => {
-    if (edit.editableLayer) {
+    if (edit?.editableLayer) {
       const editableLayer = createEditableLayer({
         data: edit.editableLayer,
         editMode: edit.editMode,
@@ -91,8 +93,24 @@ export const Map = () => {
     setPickingInfo(null);
   }, [edit.editMode]);
 
+  const mapRef = useRef<DeckGLRef>(null);
+
+  const { setScreening, isScreening, type } = useExportMapStore();
+
+  console.log(type);
+
+  const onAfterRender = () => {
+    if (isScreening && type) {
+      saveMap(mapRef.current?.deck?.getCanvas() as HTMLCanvasElement, type);
+      setScreening(false);
+    }
+  };
+
   return (
     <DeckGL
+      ref={mapRef}
+      onAfterRender={onAfterRender}
+      
       {...defaultDeckGlConfig}
       layers={[baseMapTile, mapStore.layers, editableLayer]}
       viewState={mapStore.viewState}
@@ -109,10 +127,11 @@ export const Map = () => {
         setPickingInfo(pickingInfo as PickingInfo);
       }}
       getCursor={getCursor}
+      
     >
       {!!pickingInfo?.object && (
         <Overlay {...pickingInfo} setPickingInfo={setPickingInfo} />
       )}
     </DeckGL>
   );
-};
+}

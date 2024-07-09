@@ -1,3 +1,5 @@
+import jsPDF from 'jspdf';
+
 export const toHexString = (bytes: any) => {
   return Array.from(bytes, (byte: any) => {
     return ("0" + (byte & 0xff).toString(16)).slice(-2);
@@ -34,3 +36,42 @@ export const hexToRgbaArray = (hex: string, alpha?: string | number) => {
 
   return [r, g, b, a];
 };
+
+export const formatFileType = (fileType: string) => {
+  return fileType.split('/')[1];
+};
+
+export const formatAcceptedTypesToInputAccept = (acceptedTypes: string[]) => {
+  return acceptedTypes.join(',');
+};
+
+
+export const saveMap = (canvas: HTMLCanvasElement, type: string ) => {
+  const a = document.createElement('a');
+  switch (type) {
+    case'application/pdf':
+      saveCanvasAsPDF(canvas);
+      break;
+
+    default:
+      a.href = canvas.toDataURL(type);
+      a.download = `map.${formatFileType(type)}`;
+      a.click();
+      break;
+  }
+}
+
+const saveCanvasAsPDF = (canvas: HTMLCanvasElement) => {
+  const pdf = new jsPDF('l', 'px', [canvas.width, canvas.height]);
+      pdf.setTextColor('#000000');
+
+      pdf.addImage(
+        canvas.toDataURL(),
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+
+      pdf.save('map.pdf');
+}

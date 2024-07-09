@@ -4,6 +4,7 @@ import { persist } from "zustand/middleware";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "sonner";
 import { useMapStore } from "../map";
+import { useEditMapStore } from "../edit";
 
 const initialState: UploadStoreVariables = {
   uploadedLayers: [],
@@ -34,12 +35,46 @@ export const useUploadStore = create<UploadStoreState>()(
         });
       },
 
+      setEditingNameLayer(id) {
+        const changingLayer = get().uploadedLayers.find(
+          (layer) => layer.id === id
+        );
+        if (!changingLayer) toast.error("Произошла ошибка экспорта");
+        else set({
+            uploadedLayers: [...get().uploadedLayers.filter(
+              (layer) => layer.id !== id
+            ), {...changingLayer, isEditingName: true}],
+          });
+        
+      },
+
+      renameUploadedLayer(id, name) {
+        const changingLayer = get().uploadedLayers.find(
+          (layer) => layer.id === id
+        );
+        if (!changingLayer) toast.error("Произошла ошибка экспорта");
+        else set({
+            uploadedLayers: [...get().uploadedLayers.filter(
+              (layer) => layer.id !== id
+            ), {
+              ...changingLayer,
+              isEditingName: false,
+              file: { ...changingLayer.file, name }
+            }],
+          });
+      },
+
+
       reset() {
         set(initialState);
         useMapStore.getState().setLayers([]);
       },
 
       removeUploadedLayer(id: string) {
+        const { editableLayer, resetState } = useEditMapStore.getState()
+
+        if (editableLayer?.id === id) resetState();
+
         set({
           uploadedLayers: get().uploadedLayers.filter(
             (layer) => layer.id !== id

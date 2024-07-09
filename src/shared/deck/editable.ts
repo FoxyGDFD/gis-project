@@ -27,7 +27,7 @@ type CreateEditableLayerProps = {
 
 export const createEditableLayer = (props: CreateEditableLayerProps) => {
   return new EditableGeoJsonLayer({
-    id: `edit-${props.data.id.toString()}`,
+    id: `edit-${props.data.id?.toString()}`,
     layerId: props.data.id,
 
     data: props.data.featureCollection as any,
@@ -100,28 +100,28 @@ export const createEditableLayer = (props: CreateEditableLayerProps) => {
             type: PolygonLayer,
             getFillColor: (feature: CommonFCWithProperties["features"][0]) => {
               const color =
-                feature.properties.fill ||
+                feature.properties?.fill ||
                 DEFAULT_COLORS.EDIT.GEOJSON.FILL.COLOR;
 
               const opacity =
-                feature.properties["fill-opacity"] ||
+                feature.properties?.["fill-opacity"] ||
                 DEFAULT_COLORS.EDIT.GEOJSON.FILL.OPACITY;
 
               return hexToRgbaArray(color, opacity);
             },
             getLineColor: (feature: CommonFCWithProperties["features"][0]) => {
               const color =
-                feature.properties.stroke ||
+                feature.properties?.stroke ||
                 DEFAULT_COLORS.EDIT.GEOJSON.LINE.COLOR;
 
               const opacity =
-                feature.properties["stroke-opacity"] ||
+                feature.properties?.["stroke-opacity"] ||
                 DEFAULT_COLORS.EDIT.GEOJSON.LINE.OPACITY;
 
               return hexToRgbaArray(color, opacity);
             },
             getLineWidth: (feature: CommonFCWithProperties["features"][0]) => {
-              if (feature.properties["stroke-width"]) {
+              if (feature.properties?.["stroke-width"]) {
                 return +feature.properties["stroke-width"];
               } else {
                 return DEFAULT_SIZES.LINE_WIDTH;

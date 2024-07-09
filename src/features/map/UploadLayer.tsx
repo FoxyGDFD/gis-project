@@ -4,13 +4,12 @@ import * as gjv from "geojson-validation";
 import { toast } from "sonner";
 import { useUploadStore } from "@/shared/store/upload/useUploadStore";
 import { FeatureCollection } from "@deck.gl-community/editable-layers";
-import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
 export const UploadLayer = () => {
-  const inputRef = useRef<HTMLInputElement>();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const onClick = () => {
-    inputRef.current.click();
+    inputRef.current?.click();
   };
 
   const onUpload = (e: ChangeEvent<HTMLInputElement>) => {

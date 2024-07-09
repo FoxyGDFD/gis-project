@@ -99,20 +99,20 @@ export const createVectorLayer = (id: string, data: CommonFCWithProperties) => {
         type: PolygonLayer,
         getFillColor: (feature: CommonFCWithProperties["features"][0]) => {
           const color =
-            feature.properties.fill || DEFAULT_COLORS.EDIT.GEOJSON.FILL.COLOR;
+            feature.properties?.fill || DEFAULT_COLORS.EDIT.GEOJSON.FILL.COLOR;
 
           const opacity =
-            feature.properties["fill-opacity"] ||
+            feature.properties?.["fill-opacity"] ||
             DEFAULT_COLORS.EDIT.GEOJSON.FILL.OPACITY;
 
           return hexToRgbaArray(color, opacity);
         },
         getLineColor: (feature: CommonFCWithProperties["features"][0]) => {
           const color =
-            feature.properties.stroke || DEFAULT_COLORS.EDIT.GEOJSON.LINE.COLOR;
+            feature.properties?.stroke || DEFAULT_COLORS.EDIT.GEOJSON.LINE.COLOR;
 
           const opacity =
-            feature.properties["stroke-opacity"] ||
+            feature.properties?.["stroke-opacity"] ||
             DEFAULT_COLORS.EDIT.GEOJSON.LINE.OPACITY;
 
           return hexToRgbaArray(color, opacity);
