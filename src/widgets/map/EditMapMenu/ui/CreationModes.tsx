@@ -11,9 +11,8 @@ export const CreationModes: FC = () => {
   return (
     <div className="grid grid-cols-2 gap-2 p-2">
       {createModes.map((drawMode, index) => (
-        <Tooltip.Root>
+        <Tooltip.Root key={index}>
           <Toggle.Root
-            key={index}
             asChild
             pressed={drawMode.mode === editMode}
             onPressedChange={onPressedChange(drawMode.mode)}

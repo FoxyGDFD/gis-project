@@ -10,9 +10,8 @@ export const TransformModes: FC = () => {
 	return (
 		<div className="grid grid-cols-2 gap-2 p-2">
 			{transformModes.map((transformMode, index) => (
-				<Tooltip.Root>
+				<Tooltip.Root key={index}>
 					<Toggle.Root
-						key={index}
 						asChild
 						pressed={transformMode.mode === editMode}
 						onPressedChange={onPressedChange(transformMode.mode)}

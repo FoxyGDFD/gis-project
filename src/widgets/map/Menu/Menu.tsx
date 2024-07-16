@@ -4,7 +4,7 @@ import { FaPlus } from "react-icons/fa6";
 import { cx } from "class-variance-authority";
 import * as Toggle from "@radix-ui/react-toggle";
 import { useState } from "react";
-import { ExportDialog, UploadedLayers } from "./ui";
+import { UploadedLayers } from "./ui";
 
 export const Menu = () => {
   const [pressed, setPressed] = useState(false);
