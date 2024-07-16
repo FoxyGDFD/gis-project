@@ -1,5 +1,4 @@
 import { BaseTile, CommonLayerFeatureProperties } from "../types";
-import { toHexString } from "../utils";
 
 export const DEFAULT_COLORS = {
   EDIT: {

@@ -3,11 +3,12 @@ import {
   DrawLineStringMode,
   DrawPointMode,
   DrawPolygonByDraggingMode,
+  DrawPolygonMode,
 } from "@deck.gl-community/editable-layers";
-import { MdOutlineTimeline } from "react-icons/md";
+import { MdOutlineDraw, MdOutlineTimeline } from "react-icons/md";
 import { PiPolygonDuotone } from "react-icons/pi";
 
-export const drawModes = [
+export const createModes = [
   {
     mode: new DrawPointMode(),
     icon: DotFilledIcon,
@@ -19,8 +20,13 @@ export const drawModes = [
     name: "Линии",
   },
   {
-    mode: new DrawPolygonByDraggingMode(),
+    mode: new DrawPolygonMode(),
     icon: PiPolygonDuotone,
-    name: "Расстояние",
+    name: "Площадные объекты",
+  },
+  {
+    mode: new DrawPolygonByDraggingMode(),
+    icon: MdOutlineDraw,
+    name: "Рисование площадных объектов",
   },
 ];

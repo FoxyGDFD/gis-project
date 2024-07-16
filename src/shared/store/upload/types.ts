@@ -3,6 +3,7 @@ import { FeatureCollection } from "@deck.gl-community/editable-layers";
 export type UploadStoreVariables = {
   uploadedLayers: {
     id: string;
+    isEditingName?: boolean;
     file: {
       name: string;
       size: number;
@@ -22,6 +23,9 @@ export type UploadStoreMethods = {
   ) => void;
 
   removeUploadedLayer: (id: string) => void;
+
+  setEditingNameLayer: (id: string) => void;
+  renameUploadedLayer: (id: string, name: string) => void;
 
   exportLayer: (id: string) => void;
   setLayerFC: (id: string, layer: FeatureCollection) => void;

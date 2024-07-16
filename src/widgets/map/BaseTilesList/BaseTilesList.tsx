@@ -7,10 +7,16 @@ import { motion } from "framer-motion";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { useState } from "react";
 import { BaseTile } from "@/shared/types";
+import { BaseTileItem } from "./ui";
 
 export const BaseTilesList = () => {
   const [opened, setOpened] = useState(false);
   const mapStore = useMapStore();
+
+  const changeTile = (value: string) =>
+    mapStore.setBaseMapTile(
+      baseTiles.find((tile) => tile.id === value) as BaseTile
+    )
 
   return (
     <DropdownMenu.Root open={opened} onOpenChange={setOpened}>
@@ -48,38 +54,13 @@ export const BaseTilesList = () => {
                 <ScrollArea.Viewport>
                   <ToggleGroup.Root
                     value={mapStore.baseMapTile.id}
-                    onValueChange={(value) =>
-                      mapStore.setBaseMapTile(
-                        baseTiles.find((tile) => tile.id === value) as BaseTile
-                      )
-                    }
+                    onValueChange={changeTile}
                     type="single"
                     className="w-full h-full flex flex-col gap-3"
                     asChild
                   >
                     <motion.div>
-                      {baseTiles.map((baseTile, index) => (
-                        <motion.div
-                          initial={{ x: -30, opacity: 0 }}
-                          animate={{
-                            x: 0,
-                            opacity: 1,
-                            transition: { delay: 0.07 * index },
-                          }}
-                        >
-                          <ToggleGroup.Item
-                            key={baseTile.id}
-                            value={baseTile.id}
-                            className="w-full flex items-center gap-3 px-3 rounded py-2 data-[state=on]:bg-base-300 data-[state=on]:shadow-md"
-                          >
-                            <img
-                              className="w-12 h-12 rounded-md object-cover"
-                              src={baseTile.src}
-                            />
-                            {baseTile.title}
-                          </ToggleGroup.Item>
-                        </motion.div>
-                      ))}
+                      {baseTiles.map((baseTile, index) => <BaseTileItem key={index} index={index} {...baseTile} />)}
                     </motion.div>
                   </ToggleGroup.Root>
                 </ScrollArea.Viewport>

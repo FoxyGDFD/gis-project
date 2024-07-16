@@ -1,0 +1,12 @@
+services:
+  app:
+    restart: always
+    image: gis-project
+    container_name: gis-project
+    build:
+      context: .
+      target: production
+    volumes:
+      - ./dist:/dist
+    environment:
+      NODE_ENV: production

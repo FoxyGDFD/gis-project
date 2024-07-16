@@ -1,3 +1,3 @@
 export * from "./Map";
 export * from "./Menu";
-export * from "./EditMapMenu";
+export * from "./EditMapMenu/EditMapMenu";

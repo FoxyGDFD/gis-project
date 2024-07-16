@@ -4,23 +4,19 @@ import { baseTiles } from "@/shared/data";
 import {
   COORDINATE_SYSTEM,
   FlyToInterpolator,
+  MapView,
   WebMercatorViewport,
 } from "@deck.gl/core";
 import { toast } from "sonner";
 import { defaultDeckGlConfig } from "@/shared/configs";
-import { viewModes } from "@/shared/data/view-modes";
 import { useUploadStore } from "../upload/useUploadStore";
 
 const initialState: MapStoreVariables = {
   coordinateSystem: COORDINATE_SYSTEM.DEFAULT,
   viewState: defaultDeckGlConfig.initialViewState!,
-  baseMapTile: baseTiles[6],
-  // baseTiles.find(
-  //   (baseTile) =>
-  //     baseTile.id.toString() === localStorage.getItem("base-map-tile-id"),
-  // ) || baseTiles[3],
+  baseMapTile: baseTiles[4],
   layers: [],
-  view: viewModes[0].mode,
+  view: new MapView(),
 };
 
 export const useMapStore = create<MapStoreState>()((set, get) => ({

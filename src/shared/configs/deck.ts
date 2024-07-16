@@ -2,8 +2,8 @@ import { DeckGLProps } from "@deck.gl/react";
 
 export const defaultDeckGlConfig: DeckGLProps = {
   initialViewState: {
-    longitude: -122.41669,
-    latitude: 37.7853,
+    longitude: 37.6156,
+    latitude: 55.752,
     zoom: 13,
   },
   controller: {
