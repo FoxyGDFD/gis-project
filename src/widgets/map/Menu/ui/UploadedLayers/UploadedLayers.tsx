@@ -12,7 +12,7 @@ export const UploadedLayers = () => {
     <>
       <div className="flex flex-col gap-4 select-none p-3">
         <div className="flex justify-between items-center">
-          <h3 className="prose-xl font-bold text-white">Сохраненные слои</h3>
+          <h3 className="prose-xl font-bold">Сохраненные слои</h3>
           <button className="btn btn-ghost btn-sm p-1">
             <IoTrash className="w-5 h-5 fill-red-500" onClick={() => reset()} />
           </button>

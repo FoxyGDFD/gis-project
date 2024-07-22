@@ -49,8 +49,8 @@ export const UploadedLayer: FC<EditableLayerItem & { index: number}> = ({ id, in
 			<div className="flex items-center w-full h-full justify-between gap-2">
 				<div className="max-w-[60%] w-full">
 					{isEditingName
-						? <input className="prose-md text-white overflow-hidden text-ellipsis outline-none bg-base-100" value={layerName} onChange={e => setName(e.target.value)} />
-						: <h6 className="prose-md text-white overflow-hidden text-ellipsis">
+						? <input className="prose-md overflow-hidden text-ellipsis outline-none bg-base-100" value={layerName} onChange={e => setName(e.target.value)} />
+						: <h6 className="prose-md overflow-hidden text-ellipsis">
 							{file.name}
 						</h6>
 					}

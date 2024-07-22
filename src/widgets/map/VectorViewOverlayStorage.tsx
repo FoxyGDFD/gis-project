@@ -30,9 +30,9 @@ export const VectorViewOverlayStorage = ({
               properties.map(([key, value], index) => (
                 <Fragment key={index}>
                   <input
-                    className="input input-xs input-bordered w-full max-w-xs !outline-none disabled:!text-white" value={key} placeholder='Ключ' disabled />
+                    className="input input-xs input-bordered w-full max-w-xs !outline-none" value={key} placeholder='Ключ' disabled />
                   <input
-                    className="input input-xs input-bordered w-full max-w-xs !outline-none disabled:!text-white"
+                    className="input input-xs input-bordered w-full max-w-xs !outline-none"
                     value={value}
                     placeholder='Значение'
                     disabled

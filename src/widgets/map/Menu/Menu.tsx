@@ -25,7 +25,7 @@ export const Menu = () => {
         <div className="space-y-2 divide-y-2 divide-neutral">
           <div className="p-3 space-y-2">
             <div className="flex justify-between items-center">
-              <h2 className="prose-2xl font-bold text-white">Меню</h2>
+              <h2 className="prose-2xl font-bold">Меню</h2>
               <Toggle.Root asChild pressed={pressed} onPressedChange={setPressed}>
                 <button className="btn btn-ghost btn-sm">
                   <FaPlus
