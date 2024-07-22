@@ -2,20 +2,29 @@ import {
   CommonFCWithProperties,
   CommonLayerFeatureProperties,
   EditableLayer,
-} from "@/shared/types";
-import { hexToRgbaArray } from "@/shared/utils";
+} from '@/shared/types';
+import { hexToRgbaArray } from '@/shared/utils';
 import {
   EditableGeoJsonLayer,
   GeoJsonEditMode,
   ViewMode,
-} from "@deck.gl-community/editable-layers";
-import { PathStyleExtension } from "@deck.gl/extensions";
-import { PathLayer, PolygonLayer, ScatterplotLayer } from "@deck.gl/layers";
-import { FeatureCollection } from "geojson";
-import { Dispatch, SetStateAction } from "react";
-import { DEFAULT_COLORS, DEFAULT_SIZES } from "../data";
-import { useEditMapStore } from "../store/edit";
-import { v4 } from "uuid";
+} from '@deck.gl-community/editable-layers';
+import { PathStyleExtension } from '@deck.gl/extensions';
+import {
+  GeoJsonLayer,
+  IconLayer,
+  IconLayerProps,
+  PathLayer,
+  PathLayerProps,
+  PolygonLayer,
+  ScatterplotLayer,
+  ScatterplotLayerProps,
+} from '@deck.gl/layers';
+import { FeatureCollection } from 'geojson';
+import { Dispatch, SetStateAction } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { useEditMapStore } from '../store/edit';
+import { DEFAULT_COLORS, DEFAULT_SIZES } from '../data';
 
 type CreateEditableLayerProps = {
   setSelectedFeatureIndexes: Dispatch<SetStateAction<number[]>>;
@@ -27,34 +36,29 @@ type CreateEditableLayerProps = {
 
 export const createEditableLayer = (props: CreateEditableLayerProps) => {
   return new EditableGeoJsonLayer({
-    id: `edit-${props.data.id?.toString()}`,
+    id: `edit-${props.data.id.toString()}`,
     layerId: props.data.id,
 
     data: props.data.featureCollection as any,
     selectedFeatureIndexes: props.selectedFeatureIndexes,
     mode: props.editMode,
-
-    onEdit({ updatedData }) {
-      useEditMapStore.getState().setEditableLayer({
-        ...useEditMapStore.getState().editableLayer,
-        featureCollection: {
-          ...updatedData,
-          features: updatedData.features.map((f) =>
-            f.id
-              ? f
-              : {
-                  ...f,
-                  id: v4(),
-                  properties: {
-                    ...f.properties,
-                  },
-                }
-          ),
-        } as FeatureCollection,
-      } as any);
+    modeConfig: {
+      enableSnapping: true,
+      additionalSnapTargets: props.data.featureCollection.features,
     },
 
-    onClick(pickingInfo) {
+    onEdit({ updatedData, editContext }, a) {
+      const features = updatedData.features.map(f =>
+        !f.id ? { ...f, id: uuidv4() } : f
+      );
+      useEditMapStore.getState().setEditableLayer({
+        ...useEditMapStore.getState().editableLayer,
+        featureCollection: { ...updatedData, features } as FeatureCollection,
+      } as any);
+
+    },
+
+    onClick(pickingInfo, event) {
       if (props.editMode instanceof ViewMode) {
         props.setPickingInfo(pickingInfo);
       } else {
@@ -70,7 +74,49 @@ export const createEditableLayer = (props: CreateEditableLayerProps) => {
     _subLayerProps: {
       geojson: {
         _subLayerProps: {
-          "polygons-stroke": {
+          'points-icon': {
+            type: IconLayer,
+          } as IconLayerProps<string> & { type: any },
+          'points-circle': {
+            type: ScatterplotLayer,
+            stroked: true,
+            getRadius: (feature: any) => {
+              const properties: CommonLayerFeatureProperties =
+                feature.__source?.object?.properties;
+
+              return +properties.radius || DEFAULT_SIZES.POINT_RADIUS;
+            },
+            getFillColor: (feature: CommonFCWithProperties['features'][0]) => {
+              const color =
+                feature.properties.fill ||
+                DEFAULT_COLORS.EDIT.GEOJSON.FILL.COLOR;
+
+              const opacity =
+                feature.properties['fill-opacity'] ||
+                DEFAULT_COLORS.EDIT.GEOJSON.FILL.OPACITY;
+
+              return hexToRgbaArray(color, opacity);
+            },
+            getLineColor: (feature: CommonFCWithProperties['features'][0]) => {
+              const color =
+                feature.properties.stroke ||
+                DEFAULT_COLORS.EDIT.GEOJSON.LINE.COLOR;
+
+              const opacity =
+                feature.properties['stroke-opacity'] ||
+                DEFAULT_COLORS.EDIT.GEOJSON.LINE.OPACITY;
+
+              return hexToRgbaArray(color, opacity);
+            },
+            getLineWidth: (feature: any) => {
+              if (feature.properties['stroke-width']) {
+                return +feature.properties['stroke-width'];
+              } else {
+                return DEFAULT_SIZES.LINE_WIDTH;
+              }
+            },
+          } as unknown as ScatterplotLayerProps<any> & { type: any },
+          'polygons-stroke': {
             type: PathLayer,
             getColor: (feature: any) => {
               const properties: CommonLayerFeatureProperties =
@@ -80,56 +126,46 @@ export const createEditableLayer = (props: CreateEditableLayerProps) => {
                 properties.stroke || DEFAULT_COLORS.EDIT.GEOJSON.LINE.COLOR;
 
               const opacity =
-                properties["stroke-opacity"] ||
+                properties['stroke-opacity'] ||
                 DEFAULT_COLORS.EDIT.GEOJSON.LINE.OPACITY;
 
               return hexToRgbaArray(color, opacity);
             },
-            getWidth: (feature: any) => {
-              const properties: CommonLayerFeatureProperties =
-                feature.__source?.object?.properties;
-
-              if (properties?.["stroke-width"]) {
-                return +properties["stroke-width"];
-              } else {
-                return DEFAULT_SIZES.LINE_WIDTH;
-              }
-            },
-          },
-          "polygons-fill": {
+          } as unknown as PathLayerProps<string> & { type: any },
+          'polygons-fill': {
             type: PolygonLayer,
-            getFillColor: (feature: CommonFCWithProperties["features"][0]) => {
+            getFillColor: (feature: CommonFCWithProperties['features'][0]) => {
               const color =
-                feature.properties?.fill ||
+                feature.properties.fill ||
                 DEFAULT_COLORS.EDIT.GEOJSON.FILL.COLOR;
 
               const opacity =
-                feature.properties?.["fill-opacity"] ||
+                feature.properties['fill-opacity'] ||
                 DEFAULT_COLORS.EDIT.GEOJSON.FILL.OPACITY;
 
               return hexToRgbaArray(color, opacity);
             },
-            getLineColor: (feature: CommonFCWithProperties["features"][0]) => {
+            getLineColor: (feature: CommonFCWithProperties['features'][0]) => {
               const color =
-                feature.properties?.stroke ||
+                feature.properties.stroke ||
                 DEFAULT_COLORS.EDIT.GEOJSON.LINE.COLOR;
 
               const opacity =
-                feature.properties?.["stroke-opacity"] ||
+                feature.properties['stroke-opacity'] ||
                 DEFAULT_COLORS.EDIT.GEOJSON.LINE.OPACITY;
 
               return hexToRgbaArray(color, opacity);
             },
-            getLineWidth: (feature: CommonFCWithProperties["features"][0]) => {
-              if (feature.properties?.["stroke-width"]) {
-                return +feature.properties["stroke-width"];
+            getLineWidth: (feature: CommonFCWithProperties['features'][0]) => {
+              if (feature.properties['stroke-width']) {
+                return +feature.properties['stroke-width'];
               } else {
                 return DEFAULT_SIZES.LINE_WIDTH;
               }
             },
             lineWidthMaxPixels: 5,
             lineWidthMinPixels: 2,
-          },
+          } as unknown as PathLayerProps<string> & { type: any },
           linestrings: {
             type: PathLayer,
             widthMaxPixels: 5,
@@ -142,7 +178,7 @@ export const createEditableLayer = (props: CreateEditableLayerProps) => {
                 properties.stroke || DEFAULT_COLORS.EDIT.GEOJSON.LINE.COLOR;
 
               const opacity =
-                properties["stroke-opacity"] ||
+                properties['stroke-opacity'] ||
                 DEFAULT_COLORS.EDIT.GEOJSON.LINE.OPACITY;
 
               return hexToRgbaArray(color, opacity);
@@ -151,21 +187,21 @@ export const createEditableLayer = (props: CreateEditableLayerProps) => {
               const properties: CommonLayerFeatureProperties =
                 feature.__source?.object?.properties;
 
-              if (properties?.["stroke-width"]) {
-                return +properties["stroke-width"];
+              if (properties?.['stroke-width']) {
+                return +properties['stroke-width'];
               } else {
                 return DEFAULT_SIZES.LINE_WIDTH;
               }
             },
-          },
+          } as unknown as PathLayerProps<string> & { type: any },
         },
-      },
+      } as unknown as GeoJsonLayer<any>,
       guides: {
-        pointType: "circle",
+        pointType: 'circle',
         extensions: [
           new PathStyleExtension({ dash: true, highPrecisionDash: false }),
         ],
-        getDashArray: [5, 2],
+        getDashArray: [10, 4],
         dashJustified: true,
         dashGapPickable: true,
         getFillColor: () => {
@@ -176,7 +212,7 @@ export const createEditableLayer = (props: CreateEditableLayerProps) => {
         },
         getLineWidth: DEFAULT_SIZES.LINE_WIDTH,
         _subLayerProps: {
-          "points-circle": {
+          'points-circle': {
             type: ScatterplotLayer,
             radiusScale: 1,
             stroked: true,
@@ -188,9 +224,9 @@ export const createEditableLayer = (props: CreateEditableLayerProps) => {
               return [255, 255, 255];
             },
             getLineColor: DEFAULT_COLORS.EDIT.GUIDES.LINE,
-          },
+          } as unknown as ScatterplotLayerProps<any> & { type: any },
         },
-      },
+      } as unknown as GeoJsonLayer<any>,
     },
   });
 };

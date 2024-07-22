@@ -15,6 +15,7 @@ export const VectorViewOverlay = (props: VectorViewOverlayProps) => {
       <VectorViewOverlayStorage
         layer={layer as VectorLayer}
         featureId={props.object.id}
+        featureType={props.object.geometry.type}
       />
     </div>
   );

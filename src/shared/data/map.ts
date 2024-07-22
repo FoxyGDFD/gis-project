@@ -1,6 +1,8 @@
 import { BaseTile, CommonLayerFeatureProperties } from "../types";
 
 export const DEFAULT_COLORS = {
+  HIGHLIGHT: [0, 0, 0, 255 * 0.2],
+  
   EDIT: {
     HIGHLIGHTED: [249, 182, 78, 255 * 0.7],
 
@@ -34,6 +36,7 @@ export const DEFAULT_COLORS = {
 
 export const DEFAULT_SIZES = {
   LINE_WIDTH: 1,
+  POINT_RADIUS: 10,
 };
 
 const OSM = [
@@ -148,21 +151,21 @@ export const baseLayerStyles: {
   key: keyof CommonLayerFeatureProperties;
   value: string;
 }[] = [
-  {
-    key: "fill",
-    value: DEFAULT_COLORS.EDIT.GEOJSON.FILL.COLOR,
-  },
-  {
-    key: "stroke",
-    value: DEFAULT_COLORS.EDIT.GEOJSON.LINE.COLOR,
-  },
-  {
-    key: "fill-opacity",
-    value: DEFAULT_COLORS.EDIT.GEOJSON.FILL.OPACITY.toString(),
-  },
-  {
-    key: "stroke-opacity",
-    value: DEFAULT_COLORS.EDIT.GEOJSON.LINE.OPACITY.toString(),
-  },
-  { key: "stroke-width", value: DEFAULT_SIZES.LINE_WIDTH.toString() },
-];
+    {
+      key: "fill",
+      value: DEFAULT_COLORS.EDIT.GEOJSON.FILL.COLOR,
+    },
+    {
+      key: "stroke",
+      value: DEFAULT_COLORS.EDIT.GEOJSON.LINE.COLOR,
+    },
+    {
+      key: "fill-opacity",
+      value: DEFAULT_COLORS.EDIT.GEOJSON.FILL.OPACITY.toString(),
+    },
+    {
+      key: "stroke-opacity",
+      value: DEFAULT_COLORS.EDIT.GEOJSON.LINE.OPACITY.toString(),
+    },
+    { key: "stroke-width", value: DEFAULT_SIZES.LINE_WIDTH.toString() },
+  ];

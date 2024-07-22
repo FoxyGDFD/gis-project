@@ -91,6 +91,8 @@ export const useMapStore = create<MapStoreState>()((set, get) => ({
   updateLayerData(editableLayer) {
     const layers = get().layers;
     const layer = layers.find((l) => l.id === editableLayer.id);
+    console.log("layer after update", layers, layer, editableLayer);
+
 
     if (!layer) return;
 

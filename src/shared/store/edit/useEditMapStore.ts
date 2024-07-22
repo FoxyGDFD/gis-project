@@ -13,7 +13,7 @@ export const useEditMapStore = create<EditMapStoreState>()((set, get) => ({
   ...initialState,
 
   setEditableLayer(layer) {
-    set({ editableLayer: { ...layer } });
+    set({ editableLayer: layer });
   },
 
   setPropertiesToFeature(featureId, properties) {

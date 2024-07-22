@@ -2,7 +2,7 @@ import { useEditMapStore } from "@/shared/store/edit";
 import { useMapStore } from "@/shared/store/map";
 import { PickingInfo } from "@deck.gl/core";
 import { Cross2Icon } from "@radix-ui/react-icons";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { VectorViewOverlay } from "./ViewOverlay";
 import { VectorEditOverlay } from "./EditOverlay";

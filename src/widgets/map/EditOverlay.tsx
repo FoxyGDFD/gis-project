@@ -15,6 +15,7 @@ export const VectorEditOverlay = (props: VectorEditOverlayProps) => {
       <VectorEditOverlayStorage
         layer={layer as VectorLayer}
         featureId={props.object.id}
+        featureType={props.object.geometry.type}
       />
     </div>
   );

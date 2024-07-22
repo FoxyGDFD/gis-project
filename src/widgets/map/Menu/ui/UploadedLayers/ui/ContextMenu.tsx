@@ -13,33 +13,37 @@ import { showLayer } from "../utils";
 
 export const EditLayerContextMenu: FC<EditableLayerItem> = props => {
 	const { removeUploadedLayer, exportLayer, setEditingNameLayer } = useUploadStore();
-  const { layers, flyToLayer, hideLayer } = useMapStore();
+	const { layers, flyToLayer, hideLayer } = useMapStore();
 	const { setEditableLayer, editableLayer, resetState } = useEditMapStore();
 
-  const onEdit = (id: string, lr: Omit<EditableLayer, "featureCollection">) => {
-    showLayer(id, () => {
-      const layer = layers.find((layer) => layer.id === id);
+	const onEdit = (id: string, lr: Omit<EditableLayer, "featureCollection">) => {
+		showLayer(id, () => {
+			console.log(layers);
 
-      if (!layer) return;
+			const layer = useMapStore.getState().layers.find((layer) => layer.id === id);
 
-      const featureCollection = layer.props.getFeatureCollection();
-      setEditableLayer({ ...lr, featureCollection });
+			console.log("show", layer);
 
-      flyToLayer(id);
-      hideLayer(id);
-    });
-  };
-  const onStopEdit = (id: string) => {
-    resetState();
-    showLayer(id);
-  };
+			if (!layer) return;
+
+			const featureCollection = layer.props.getFeatureCollection();
+			setEditableLayer({ ...lr, featureCollection });
+
+			flyToLayer(id);
+			hideLayer(id);
+		});
+	};
+	const onStopEdit = (id: string) => {
+		resetState();
+		showLayer(id);
+	};
 
 	const onClickEditButton = () => {
 		editableLayer?.id === props.id
 			? onStopEdit(props.id!)
 			: onEdit(props.id as string, props)
 	}
-	
+
 	return (
 		<ContextMenu.Content asChild>
 			<motion.div

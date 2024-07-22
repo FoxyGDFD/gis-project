@@ -1,4 +1,5 @@
 import jsPDF from 'jspdf';
+import { baseLayerStyles } from './data';
 
 export const toHexString = (bytes: any) => {
   return Array.from(bytes, (byte: any) => {
@@ -10,9 +11,8 @@ export const formatFileSize = (bytes: number) => {
   if (bytes <= 0) return "0 B";
   const sufixes = ["B", "KB", "MB", "GB", "TB"];
   const i = Math.floor(Math.log(bytes) / Math.log(1024));
-  return `${(bytes / Math.pow(1024, i)).toFixed(2).replace(/\.00$/, "")} ${
-    sufixes[i]
-  }`;
+  return `${(bytes / Math.pow(1024, i)).toFixed(2).replace(/\.00$/, "")} ${sufixes[i]
+    }`;
 };
 
 export const formatFileName = (fileName: string) => {
@@ -46,10 +46,10 @@ export const formatAcceptedTypesToInputAccept = (acceptedTypes: string[]) => {
 };
 
 
-export const saveMap = (canvas: HTMLCanvasElement, type: string ) => {
+export const saveMap = (canvas: HTMLCanvasElement, type: string) => {
   const a = document.createElement('a');
   switch (type) {
-    case'application/pdf':
+    case 'application/pdf':
       saveCanvasAsPDF(canvas);
       break;
 
@@ -63,15 +63,29 @@ export const saveMap = (canvas: HTMLCanvasElement, type: string ) => {
 
 const saveCanvasAsPDF = (canvas: HTMLCanvasElement) => {
   const pdf = new jsPDF('l', 'px', [canvas.width, canvas.height]);
-      pdf.setTextColor('#000000');
+  pdf.setTextColor('#000000');
 
-      pdf.addImage(
-        canvas.toDataURL(),
-        0,
-        0,
-        canvas.width,
-        canvas.height
-      );
+  pdf.addImage(
+    canvas.toDataURL(),
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
 
-      pdf.save('map.pdf');
+  pdf.save('map.pdf');
 }
+
+export const getBaseStylesForObject = (type: any) => {
+  if (type === 'Point' || type === 'MultiPoint') {
+    return baseLayerStyles;
+  } else if (type === 'LineString' || type === 'MultiLineString') {
+    return baseLayerStyles.filter(
+      s => s.key !== 'fill' && s.key !== 'fill-opacity' && s.key !== 'radius'
+    );
+  } else if (type === 'Polygon' || type === 'MultiPolygon') {
+    return baseLayerStyles.filter(s => s.key !== 'radius');
+  }
+
+  return baseLayerStyles;
+};
